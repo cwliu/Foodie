@@ -2,6 +2,7 @@ package com.codylab.foodie.dagger
 
 
 import android.app.Application
+import com.codylab.finefood.core.dagger.viewmodel.ViewModelModule
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
@@ -13,7 +14,8 @@ import javax.inject.Singleton
     modules = [
         AndroidSupportInjectionModule::class,
         ActivityBuilder::class,
-        CoreModule::class
+        CoreModule::class,
+        ViewModelModule::class
     ]
 )
 interface AppComponent : AndroidInjector<DaggerApplication> {

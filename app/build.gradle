@@ -27,6 +27,8 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
     implementation "com.android.support.constraint:constraint-layout:$constraintlayoutVersion"
 
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
     // Dagger core
     implementation "com.google.dagger:dagger:$daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
@@ -39,4 +41,7 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test:runner:$testRunnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCore"
+
+    implementation "android.arch.lifecycle:extensions:$project.aacVersion"
+    implementation "android.arch.lifecycle:reactivestreams:$project.aacVersion"
 }
