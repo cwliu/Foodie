@@ -3,7 +3,7 @@ package com.codylab.foodie.feature
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.MutableLiveData
 import com.codylab.finefood.core.livedata.Event
-import com.codylab.foodie.Application
+import com.codylab.foodie.core.Application
 import com.codylab.foodie.R
 import com.codylab.foodie.core.extension.NonNullMediatorLiveData
 import com.codylab.foodie.core.extension.nonNull

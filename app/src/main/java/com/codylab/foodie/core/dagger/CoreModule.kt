@@ -1,7 +1,7 @@
-package com.codylab.foodie.dagger
+package com.codylab.foodie.core.dagger
 
 import android.content.Context
-import com.codylab.foodie.Application
+import com.codylab.foodie.core.Application
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

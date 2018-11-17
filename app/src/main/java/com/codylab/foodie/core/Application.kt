@@ -1,7 +1,7 @@
-package com.codylab.foodie
+package com.codylab.foodie.core
 
-import com.codylab.foodie.dagger.CoreModule
-import com.codylab.foodie.dagger.DaggerAppComponent
+import com.codylab.foodie.core.dagger.CoreModule
+import com.codylab.foodie.core.dagger.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 

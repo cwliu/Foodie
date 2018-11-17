@@ -1,4 +1,4 @@
-package com.codylab.foodie.dagger
+package com.codylab.foodie.core.dagger
 
 
 import android.app.Application
