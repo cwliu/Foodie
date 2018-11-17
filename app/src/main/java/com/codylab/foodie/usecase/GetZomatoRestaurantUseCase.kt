@@ -10,7 +10,7 @@ class GetZomatoRestaurantUseCase @Inject constructor(
     private val zomatoRestaurantRepository: ZomatoRestaurantRepository
 ) {
     operator fun invoke(): Observable<List<Restaurant>> {
-        return userLocationUseCase().flatMap { location ->
+        return userLocationUseCase().firstElement().toObservable().flatMap { location ->
             zomatoRestaurantRepository.getRestaurants(location).toObservable()
         }
     }
