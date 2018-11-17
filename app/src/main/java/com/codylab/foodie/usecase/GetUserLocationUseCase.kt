@@ -1,6 +1,6 @@
 package com.codylab.foodie.usecase
 
-import com.codylab.finefood.core.model.Location
+import com.codylab.foodie.core.model.Location
 import com.codylab.foodie.core.repository.UserLocationRepository
 import io.reactivex.Observable
 import javax.inject.Inject

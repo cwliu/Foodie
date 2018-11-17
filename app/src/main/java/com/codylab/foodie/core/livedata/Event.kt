@@ -1,4 +1,4 @@
-package com.codylab.finefood.core.livedata
+package com.codylab.foodie.core.livedata
 
 class Event<out T>(val data: T) {
 

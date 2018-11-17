@@ -1,4 +1,4 @@
-package com.codylab.finefood.core.dagger.viewmodel
+package com.codylab.foodie.core.dagger.viewmodel
 
 import android.arch.lifecycle.ViewModel
 import dagger.MapKey

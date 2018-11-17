@@ -1,7 +1,7 @@
 package com.codylab.foodie.core.dagger
 
-import com.codylab.finefood.core.zomato.ZomatoApi
 import com.codylab.foodie.BuildConfig
+import com.codylab.foodie.core.zomato.ZomatoApi
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient

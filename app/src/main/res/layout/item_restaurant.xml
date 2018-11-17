@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="restaurant" type="com.codylab.foodie.core.zomato.model.search.Restaurant"/>
+    </data>
+
+    <LinearLayout
+            android:id="@+id/root"
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+
+        <ImageView
+                android:id="@+id/thumbnail"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:scaleType="centerCrop"
+                tools:src="@tools:sample/avatars"
+                app:imageUrl="@{restaurant.featured_image}"/>
+
+        <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@{restaurant.user_rating.aggregate_rating}"
+                tools:text="Element"/>
+
+        <TextView
+                android:id="@+id/rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@{restaurant.name}"
+                app:visible="@{restaurant.include_bogo_offers}"
+                tools:text="4.5"/>
+    </LinearLayout>
+</layout>

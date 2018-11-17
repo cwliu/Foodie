@@ -1,4 +1,4 @@
-package com.codylab.finefood.core.zomato.model.search
+package com.codylab.foodie.core.zomato.model.search
 
 data class UserRating(
     val aggregate_rating: String,

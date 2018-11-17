@@ -1,7 +1,7 @@
 package com.codylab.foodie.core.repository
 
 import android.annotation.SuppressLint
-import com.codylab.finefood.core.model.Location
+import com.codylab.foodie.core.model.Location
 import com.google.android.gms.location.*
 import io.reactivex.Maybe
 import io.reactivex.Observable

@@ -2,6 +2,7 @@ package com.codylab.foodie.feature
 
 import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import androidx.core.view.isVisible
 import com.codylab.foodie.R
 import com.codylab.foodie.core.BaseActivity
@@ -17,9 +18,15 @@ class RestaurantListActivity : BaseActivity() {
 
     private lateinit var viewModel: RestaurantListViewModel
 
+    private lateinit var restaurantAdapter: RestaurantListAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_restaurant_list)
+
+        restaurantAdapter = RestaurantListAdapter()
+        restaurantList.adapter = restaurantAdapter
+        restaurantList.layoutManager = LinearLayoutManager(this)
 
         viewModel = getViewModel(viewModelFactory)
 
@@ -28,8 +35,10 @@ class RestaurantListActivity : BaseActivity() {
                 showError(it)
             }
 
-            uiModel?.zomatoRestaurantList?.let {
-                showToast(it.toString())
+            uiModel?.zomatoRestaurantList?.let {restaurants ->
+                restaurantAdapter.list.clear()
+                restaurantAdapter.list.addAll(restaurants)
+                restaurantAdapter.notifyDataSetChanged()
             }
 
             uiModel.isLoading.let {

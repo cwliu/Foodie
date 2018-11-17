@@ -1,13 +1,13 @@
 package com.codylab.foodie.feature
 
 import android.content.res.Resources
-import com.codylab.finefood.core.livedata.Event
-import com.codylab.finefood.core.zomato.model.search.SearchRestaurant
 import com.codylab.foodie.R
 import com.codylab.foodie.core.coroutine.ScopedViewModel
 import com.codylab.foodie.core.extension.NonNullMediatorLiveData
 import com.codylab.foodie.core.extension.applySchedulers
+import com.codylab.foodie.core.livedata.Event
 import com.codylab.foodie.core.reactive.BaseObserver
+import com.codylab.foodie.core.zomato.model.search.Restaurant
 import com.codylab.foodie.usecase.GetZomatoRestaurantUseCase
 import io.reactivex.rxkotlin.plusAssign
 import org.jetbrains.annotations.TestOnly
@@ -15,7 +15,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 data class RestaurantListUiModel(
-    var zomatoRestaurantList: List<SearchRestaurant>? = null,
+    var zomatoRestaurantList: List<Restaurant>? = null,
     var isLoading: Boolean = false,
     var message: Event<String>? = null
 )
@@ -39,7 +39,7 @@ class RestaurantListViewModel @Inject constructor(
 
         disposables += getZomatoRestaurantUseCase()
             .applySchedulers()
-            .subscribeWith(object : BaseObserver<List<SearchRestaurant>>() {
+            .subscribeWith(object : BaseObserver<List<Restaurant>>() {
                 override fun onStart() {
                     super.onStart()
 
@@ -47,7 +47,7 @@ class RestaurantListViewModel @Inject constructor(
                     uiModel.postValue(uiModelData)
                 }
 
-                override fun onNext(restaurants: List<SearchRestaurant>) {
+                override fun onNext(restaurants: List<Restaurant>) {
                     uiModelData.isLoading = false
                     uiModelData.zomatoRestaurantList = restaurants
                     uiModel.postValue(uiModelData)

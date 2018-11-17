@@ -1,8 +1,10 @@
-package com.codylab.finefood.core.zomato.model.search
+package com.codylab.foodie.core.zomato.model.search
+
+import com.codylab.foodie.core.zomato.model.searchimport.SearchRestaurant
 
 data class SearchResponse(
-    val restaurants: List<SearchRestaurant>,
     val results_found: Int,
     val results_shown: Int,
-    val results_start: Int
+    val results_start: Int,
+    val restaurants: List<SearchRestaurant>
 )

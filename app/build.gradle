@@ -23,6 +23,10 @@ android {
     buildTypes.each {
         it.buildConfigField 'String', 'ZOMATO_API_KEY', zomato_api_key
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -32,6 +36,10 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
     implementation "com.android.support:support-v4:$supportLibraryVersion"
     implementation "com.android.support:customtabs:$supportLibraryVersion"
+    implementation "com.android.support:recyclerview-v7:$project.supportLibraryVersion"
+
+    // Google Play Services Place
+    implementation "com.google.android.gms:play-services-location:$googlePlayServiceLocationVersion"
 
     implementation "com.jakewharton.timber:timber:$timberVersion"
     implementation "androidx.core:core-ktx:$ktxVersion"
@@ -68,9 +76,9 @@ dependencies {
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
     implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$retrofitCoroutinesVersion"
 
-    // Google Play Services Place
-    implementation "com.google.android.gms:play-services-location:$googlePlayServiceLocationVersion"
-
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.mockito:mockito-core:$mockitoCoreVersion"
