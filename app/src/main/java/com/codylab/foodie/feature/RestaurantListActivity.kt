@@ -28,11 +28,13 @@ class RestaurantListActivity : BaseActivity() {
                 showError(it)
             }
 
-            uiModel?.message?.getDataIfNotHandled()?.let {
-                showError(it)
+            uiModel?.zomatoRestaurantList?.let {
+                showToast(it.toString())
             }
 
-            progressBar.isVisible = uiModel.isLoading
+            uiModel.isLoading.let {
+                progressBar.isVisible = it
+            }
         }
     }
 

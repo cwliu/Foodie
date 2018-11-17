@@ -55,7 +55,7 @@ class UserLocationRepository @Inject constructor(
         return Observable.create<Location> { emitter ->
             val locationRequest = LocationRequest()
             locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-            locationRequest.interval = 5_000
+            locationRequest.interval = 10_000
 
             locationCallback = object : LocationCallback() {
                 override fun onLocationResult(result: LocationResult) {

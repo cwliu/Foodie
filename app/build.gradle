@@ -60,7 +60,8 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion"
     implementation "com.jakewharton.rxbinding2:rxbinding:$rxBindingVersion"
     implementation "com.github.tbruyelle:rxpermissions:$rxPermissionVersion"
-    
+    implementation "com.squareup.okhttp3:logging-interceptor:$okHttp3LoggingInterceptor"
+
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
@@ -69,6 +70,7 @@ dependencies {
 
     // Google Play Services Place
     implementation "com.google.android.gms:play-services-location:$googlePlayServiceLocationVersion"
+
 
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.mockito:mockito-core:$mockitoCoreVersion"

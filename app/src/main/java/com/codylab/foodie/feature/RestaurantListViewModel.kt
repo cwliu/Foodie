@@ -2,18 +2,20 @@ package com.codylab.foodie.feature
 
 import android.content.res.Resources
 import com.codylab.finefood.core.livedata.Event
-import com.codylab.finefood.core.model.Location
+import com.codylab.finefood.core.zomato.model.search.SearchRestaurant
 import com.codylab.foodie.R
 import com.codylab.foodie.core.coroutine.ScopedViewModel
 import com.codylab.foodie.core.extension.NonNullMediatorLiveData
+import com.codylab.foodie.core.extension.applySchedulers
 import com.codylab.foodie.core.reactive.BaseObserver
-import com.codylab.foodie.usecase.GetUserLocationUseCase
+import com.codylab.foodie.usecase.GetZomatoRestaurantUseCase
 import io.reactivex.rxkotlin.plusAssign
 import org.jetbrains.annotations.TestOnly
 import javax.inject.Inject
 import javax.inject.Singleton
 
 data class RestaurantListUiModel(
+    var zomatoRestaurantList: List<SearchRestaurant>? = null,
     var isLoading: Boolean = false,
     var message: Event<String>? = null
 )
@@ -21,7 +23,7 @@ data class RestaurantListUiModel(
 @Singleton
 class RestaurantListViewModel @Inject constructor(
     private val resources: Resources,
-    private val getUserLocation: GetUserLocationUseCase
+    private val getZomatoRestaurantUseCase: GetZomatoRestaurantUseCase
 ) : ScopedViewModel() {
 
     val uiModel = NonNullMediatorLiveData<RestaurantListUiModel>()
@@ -35,12 +37,35 @@ class RestaurantListViewModel @Inject constructor(
             return
         }
 
-        disposables += getUserLocation().subscribeWith(object: BaseObserver<Location>(){
-            override fun onNext(location: Location) {
-                uiModelData.message = Event(location.toString())
-                uiModel.postValue(uiModelData)
-            }
-        })
+        disposables += getZomatoRestaurantUseCase()
+            .applySchedulers()
+            .subscribeWith(object : BaseObserver<List<SearchRestaurant>>() {
+                override fun onStart() {
+                    super.onStart()
+
+                    uiModelData.isLoading = true
+                    uiModel.postValue(uiModelData)
+                }
+
+                override fun onNext(restaurants: List<SearchRestaurant>) {
+                    uiModelData.isLoading = false
+                    uiModelData.zomatoRestaurantList = restaurants
+                    uiModel.postValue(uiModelData)
+                }
+
+                override fun onComplete() {
+                    super.onComplete()
+                    uiModelData.isLoading = false
+                    uiModel.postValue(uiModelData)
+                }
+
+                override fun onError(e: Throwable) {
+                    super.onError(e)
+                    uiModelData.isLoading = false
+                    uiModelData.message = Event(e.message.toString())
+                    uiModel.postValue(uiModelData)
+                }
+            })
     }
 
     @TestOnly
