@@ -17,14 +17,15 @@
                 android:layout_height="80dp"
                 android:scaleType="centerCrop"
                 tools:src="@tools:sample/avatars"
-                app:imageUrl="@{restaurant.featured_image}"/>
+                app:imageUrl="@{restaurant.featured_image}"
+                tools:ignore="ContentDescription"/>
 
         <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="@{restaurant.user_rating.aggregate_rating}"
+                android:text="@{restaurant.name}"
                 tools:text="Element"/>
 
         <TextView
@@ -32,8 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="@{restaurant.name}"
-                app:visible="@{restaurant.include_bogo_offers}"
+                android:text="@{restaurant.user_rating.aggregate_rating}"
                 tools:text="4.5"/>
     </LinearLayout>
 </layout>

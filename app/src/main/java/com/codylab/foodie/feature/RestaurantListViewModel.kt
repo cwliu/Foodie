@@ -8,8 +8,6 @@ import com.codylab.foodie.core.extension.NonNullMediatorLiveData
 import com.codylab.foodie.core.livedata.Event
 import com.codylab.foodie.core.reactive.BaseObserver
 import com.codylab.foodie.core.zomato.model.search.Restaurant
-import com.codylab.foodie.usecase.GetPagedRestaurantsListUseCase
-import com.codylab.foodie.usecase.GetUserLocationUseCase
 import com.codylab.foodie.usecase.GetZomatoRestaurantUseCase
 import io.reactivex.rxkotlin.plusAssign
 import org.jetbrains.annotations.TestOnly
@@ -25,9 +23,7 @@ data class RestaurantListUiModel(
 @Singleton
 class RestaurantListViewModel @Inject constructor(
     private val resources: Resources,
-    private val getZomatoRestaurantUseCase: GetZomatoRestaurantUseCase,
-    private val getPagedRestaurantsListUseCase: GetPagedRestaurantsListUseCase,
-    private val getUserLocationUseCase: GetUserLocationUseCase
+    private val getZomatoRestaurantUseCase: GetZomatoRestaurantUseCase
     ) : ScopedViewModel() {
 
     val uiModel = NonNullMediatorLiveData<RestaurantListUiModel>()

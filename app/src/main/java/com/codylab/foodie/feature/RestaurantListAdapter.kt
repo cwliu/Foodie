@@ -26,16 +26,42 @@ class RestaurantListAdapter :
 
     class RestaurantViewHolder(
         private val binding: ItemRestaurantBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
+    ) : RecyclerView.ViewHolder(binding.root), RestaurantItemView {
+
+        private val restaurantPresenter = RestaurantPresenter()
 
         fun bind(restaurant: Restaurant) {
-            binding.restaurant = restaurant
+            restaurantPresenter.setup(this, restaurant)
 
+            binding.restaurant = restaurant
             binding.root.setOnClickListener {
-                val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = Uri.parse(restaurant.url)
-                it.context.startActivity(intent)
+                restaurantPresenter.onItemClick()
             }
         }
+
+        override fun goToRestaurantUrl(url: String) {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(url)
+            itemView.context.startActivity(intent)
+        }
+    }
+}
+
+interface RestaurantItemView {
+    fun goToRestaurantUrl(url: String)
+}
+
+class RestaurantPresenter {
+
+    lateinit var view: RestaurantItemView
+    lateinit var restaurant: Restaurant
+
+    fun setup(view: RestaurantItemView, restaurant: Restaurant) {
+        this.view = view
+        this.restaurant = restaurant
+    }
+
+    fun onItemClick() {
+        view.goToRestaurantUrl(restaurant.url)
     }
 }

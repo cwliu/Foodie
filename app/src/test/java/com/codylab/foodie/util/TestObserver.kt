@@ -1,4 +1,4 @@
-package com.codylab.foodie.feature
+package com.codylab.foodie.util
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
