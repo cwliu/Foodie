@@ -1,12 +1,10 @@
 package com.codylab.foodie.feature
 
-import android.arch.lifecycle.MutableLiveData
 import android.content.res.Resources
 import com.codylab.finefood.core.livedata.Event
 import com.codylab.foodie.R
 import com.codylab.foodie.core.coroutine.ScopedViewModel
 import com.codylab.foodie.core.extension.NonNullMediatorLiveData
-import com.codylab.foodie.core.extension.nonNull
 import com.codylab.foodie.core.repository.LastKnownLocationRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,16 +21,14 @@ class RestaurantListViewModel @Inject constructor(
     private val lastKnownLocationRepository: LastKnownLocationRepository
 ) : ScopedViewModel() {
 
-    val uiModel: NonNullMediatorLiveData<RestaurantListUiModel>
-        get() = _uiModel.nonNull()
+    val uiModel = NonNullMediatorLiveData<RestaurantListUiModel>()
 
-    private val _uiModel = MutableLiveData<RestaurantListUiModel>()
     private val uiModelData = RestaurantListUiModel()
 
     fun onLocationRequested(grant: Boolean) {
         if (!grant) {
             uiModelData.message = Event(resources.getString(R.string.failed_to_get_user_location))
-            _uiModel.postValue(uiModelData)
+            uiModel.postValue(uiModelData)
             return
         }
 
@@ -40,7 +36,7 @@ class RestaurantListViewModel @Inject constructor(
             val location = lastKnownLocationRepository.getLastLocationCoroutine()
             location?.let {
                 uiModelData.message = Event(it.toString())
-                _uiModel.postValue(uiModelData)
+                uiModel.postValue(uiModelData)
             }
         }
     }
