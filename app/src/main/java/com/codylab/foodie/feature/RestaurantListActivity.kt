@@ -41,7 +41,15 @@ class RestaurantListActivity : BaseActivity() {
 
             uiModel.isLoading.let {
                 progressBar.isVisible = it
+
+                if (!it) {
+                    swiperefresh.isRefreshing = false
+                }
             }
+        }
+
+        swiperefresh.setOnRefreshListener {
+            viewModel.onRefresh()
         }
     }
 

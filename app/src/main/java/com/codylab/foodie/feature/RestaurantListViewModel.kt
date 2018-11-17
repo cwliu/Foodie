@@ -1,5 +1,6 @@
 package com.codylab.foodie.feature
 
+import android.arch.paging.DataSource
 import android.arch.paging.PagedList
 import android.content.res.Resources
 import com.codylab.foodie.R
@@ -31,6 +32,8 @@ class RestaurantListViewModel @Inject constructor(
 
     private val uiModelData = RestaurantListUiModel()
 
+    private var dataSource: DataSource<*, Restaurant>? = null
+
     fun onLocationRequested(grant: Boolean) {
         if (!grant) {
             uiModelData.message = Event(resources.getString(R.string.error_no_location_permission))
@@ -49,6 +52,8 @@ class RestaurantListViewModel @Inject constructor(
                 }
 
                 override fun onNext(restaurants: PagedList<Restaurant>) {
+                    dataSource = restaurants.dataSource
+
                     uiModelData.isLoading = false
                     uiModelData.zomatoRestaurantList = restaurants
                     uiModel.postValue(uiModelData)
@@ -67,6 +72,10 @@ class RestaurantListViewModel @Inject constructor(
                     uiModel.postValue(uiModelData)
                 }
             })
+    }
+
+    fun onRefresh() {
+        dataSource?.invalidate()
     }
 
     @TestOnly
