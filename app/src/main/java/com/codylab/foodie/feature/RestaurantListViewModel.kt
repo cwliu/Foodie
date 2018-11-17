@@ -10,6 +10,7 @@ import com.codylab.foodie.core.extension.NonNullMediatorLiveData
 import com.codylab.foodie.core.extension.exhaustive
 import com.codylab.foodie.core.repository.UserLocationRepository
 import kotlinx.coroutines.launch
+import org.jetbrains.annotations.TestOnly
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -58,5 +59,11 @@ class RestaurantListViewModel @Inject constructor(
             uiModelData.isLoading = false
             uiModel.postValue(uiModelData)
         }
+    }
+
+    @TestOnly
+    fun showNoPermissionError() {
+        uiModelData.message = Event(resources.getString(R.string.error_no_location_permission))
+        uiModel.postValue(uiModelData)
     }
 }
