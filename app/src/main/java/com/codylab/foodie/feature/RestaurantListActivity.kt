@@ -1,15 +1,13 @@
 package com.codylab.foodie.feature
 
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
+import androidx.core.view.isVisible
 import com.codylab.foodie.R
 import com.codylab.foodie.core.BaseActivity
-import com.codylab.foodie.core.extension.getViewModel
-import com.codylab.foodie.core.extension.nonNull
-import com.codylab.foodie.core.extension.requestLocationPermission
-import com.codylab.foodie.core.extension.showError
+import com.codylab.foodie.core.extension.*
 import io.reactivex.rxkotlin.plusAssign
+import kotlinx.android.synthetic.main.activity_restaurant_list.*
 import javax.inject.Inject
 
 class RestaurantListActivity : BaseActivity() {
@@ -25,11 +23,18 @@ class RestaurantListActivity : BaseActivity() {
 
         viewModel = getViewModel(viewModelFactory)
 
-        viewModel.uiModel.nonNull().observe(this, Observer<RestaurantListUiModel> { uiModel ->
+        viewModel.uiModel.nonNull().observeNonNull(this) { uiModel ->
             uiModel?.message?.getDataIfNotHandled()?.let {
                 showError(it)
             }
-        })
+
+            uiModel?.message?.getDataIfNotHandled()?.let {
+                showError(it)
+            }
+
+            progressBar.isVisible = uiModel.isLoading
+
+        }
     }
 
     override fun onStart() {

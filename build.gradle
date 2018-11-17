@@ -5,18 +5,19 @@ buildscript {
         minSdkVersion = 21
 
         androidGraldePluginVersion = "3.2.1"
-        googleServicePlugin = '4.1.0'
-        fabricPluginVersion = '1.25.4'
-
-        appcompatVersion = '1.0.2'
+        googleServicePlugin = "4.1.0"
+        fabricPluginVersion = "1.25.4"
+        androidKtxVersion= "1.0.1"
+        appcompatVersion = "1.0.2"
         constraintlayoutVersion = "1.1.3"
         supportLibraryVersion = "28.0.0"
         aacVersion = "1.1.1"
 
-        kotlinVersion = '1.3.0'
+        kotlinVersion = "1.3.0"
+        ktxVersion = "0.3"
         coroutinesVersion = "1.0.0"
 
-        timberVersion = '4.7.1'
+        timberVersion = "4.7.1"
         daggerVersion = "2.19"
 
         rxJavaVersion = "2.2.2"
@@ -49,7 +50,7 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven { url 'https://jitpack.io' }
+        maven { url "https://jitpack.io" }
     }
 }
 
