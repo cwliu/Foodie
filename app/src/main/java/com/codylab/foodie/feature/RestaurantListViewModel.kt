@@ -2,14 +2,12 @@ package com.codylab.foodie.feature
 
 import android.content.res.Resources
 import com.codylab.finefood.core.livedata.Event
+import com.codylab.finefood.core.model.Location
 import com.codylab.foodie.R
-import com.codylab.foodie.core.coroutine.Response
 import com.codylab.foodie.core.coroutine.ScopedViewModel
-import com.codylab.foodie.core.coroutine.safeCall
 import com.codylab.foodie.core.extension.NonNullMediatorLiveData
-import com.codylab.foodie.core.extension.exhaustive
-import com.codylab.foodie.core.repository.UserLocationRepository
-import kotlinx.coroutines.launch
+import com.codylab.foodie.core.reactive.BaseObserver
+import com.codylab.foodie.usecase.GetUserLocationUseCase
 import org.jetbrains.annotations.TestOnly
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -22,7 +20,7 @@ data class RestaurantListUiModel(
 @Singleton
 class RestaurantListViewModel @Inject constructor(
     private val resources: Resources,
-    private val userLocationRepository: UserLocationRepository
+    private val getUserLocation: GetUserLocationUseCase
 ) : ScopedViewModel() {
 
     val uiModel = NonNullMediatorLiveData<RestaurantListUiModel>()
@@ -36,29 +34,12 @@ class RestaurantListViewModel @Inject constructor(
             return
         }
 
-        launch {
-            uiModelData.isLoading = true
-            uiModel.postValue(uiModelData)
-
-            val locationResponse = safeCall(resources.getString(R.string.error_failed_to_get_user_location)) {
-                Response.Success(userLocationRepository.getLastKnownLocation())
+        getUserLocation().subscribeWith(object: BaseObserver<Location>(){
+            override fun onNext(location: Location) {
+                uiModelData.message = Event(location.toString())
+                uiModel.postValue(uiModelData)
             }
-
-            when(locationResponse) {
-                is Response.Success -> {
-                    uiModelData.message = Event(locationResponse.data.toString())
-                    uiModel.postValue(uiModelData)
-                }
-                is Response.Error -> {
-                    uiModelData.message = Event(locationResponse.exception.toString())
-                    uiModel.postValue(uiModelData)
-
-                }
-            }.exhaustive
-
-            uiModelData.isLoading = false
-            uiModel.postValue(uiModelData)
-        }
+        }).addSubscription()
     }
 
     @TestOnly

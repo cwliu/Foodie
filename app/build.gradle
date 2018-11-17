@@ -19,6 +19,10 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+
+    buildTypes.each {
+        it.buildConfigField 'String', 'ZOMATO_API_KEY', zomato_api_key
+    }
 }
 
 dependencies {
@@ -56,6 +60,12 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion"
     implementation "com.jakewharton.rxbinding2:rxbinding:$rxBindingVersion"
     implementation "com.github.tbruyelle:rxpermissions:$rxPermissionVersion"
+    
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$retrofitCoroutinesVersion"
 
     // Google Play Services Place
     implementation "com.google.android.gms:play-services-location:$googlePlayServiceLocationVersion"

@@ -3,7 +3,7 @@ package com.codylab.foodie.feature
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.content.res.Resources
 import com.codylab.foodie.R
-import com.codylab.foodie.core.repository.UserLocationRepository
+import com.codylab.foodie.usecase.GetUserLocationUseCase
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import org.junit.*
@@ -26,9 +26,9 @@ class RestaurantListViewModelTest {
     fun showNoPermissionError() {
         // Arrange
         val resources: Resources = mock()
-        val userLocationRepository: UserLocationRepository = mock()
+        val getUserLocation: GetUserLocationUseCase = mock()
         val viewModel = RestaurantListViewModel(
-            resources, userLocationRepository
+            resources, getUserLocation
         )
         val testObserver = viewModel.uiModel.testObserver()
         val message = "Hi Testing"
