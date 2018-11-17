@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Foodie</string>
+    <string name="failed_to_get_user_location">Can not get user location</string>
 </resources>

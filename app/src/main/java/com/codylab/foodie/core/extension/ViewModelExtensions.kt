@@ -1,4 +1,4 @@
-package com.codylab.foodie.extension
+package com.codylab.foodie.core.extension
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
