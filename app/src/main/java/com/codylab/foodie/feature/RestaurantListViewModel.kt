@@ -8,6 +8,7 @@ import com.codylab.foodie.core.coroutine.ScopedViewModel
 import com.codylab.foodie.core.extension.NonNullMediatorLiveData
 import com.codylab.foodie.core.reactive.BaseObserver
 import com.codylab.foodie.usecase.GetUserLocationUseCase
+import io.reactivex.rxkotlin.plusAssign
 import org.jetbrains.annotations.TestOnly
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -34,12 +35,12 @@ class RestaurantListViewModel @Inject constructor(
             return
         }
 
-        getUserLocation().subscribeWith(object: BaseObserver<Location>(){
+        disposables += getUserLocation().subscribeWith(object: BaseObserver<Location>(){
             override fun onNext(location: Location) {
                 uiModelData.message = Event(location.toString())
                 uiModel.postValue(uiModelData)
             }
-        }).addSubscription()
+        })
     }
 
     @TestOnly

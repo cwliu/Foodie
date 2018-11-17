@@ -33,7 +33,6 @@ class RestaurantListActivity : BaseActivity() {
             }
 
             progressBar.isVisible = uiModel.isLoading
-
         }
     }
 

@@ -6,7 +6,7 @@ import io.reactivex.Observable
 import javax.inject.Inject
 
 class GetUserLocationUseCase @Inject constructor(
-    val userLocationRepository: UserLocationRepository
+    private val userLocationRepository: UserLocationRepository
 ) {
 
     operator fun invoke(): Observable<Location> {
