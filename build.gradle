@@ -28,6 +28,8 @@ buildscript {
         retrofitVersion = "2.4.0"
         retrofitCoroutinesVersion = "0.9.2"
 
+        googlePlayServiceLocationVersion = "16.0.0"
+
         junitVersion = "4.12"
         espressoCore = "3.1.0"
         testRunnerVersion = "1.1.0"

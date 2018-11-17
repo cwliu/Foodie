@@ -1,20 +1,27 @@
 package com.codylab.foodie.feature
 
-import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.MutableLiveData
+import android.content.res.Resources
 import com.codylab.finefood.core.livedata.Event
-import com.codylab.foodie.core.Application
 import com.codylab.foodie.R
+import com.codylab.foodie.core.coroutine.ScopedViewModel
 import com.codylab.foodie.core.extension.NonNullMediatorLiveData
 import com.codylab.foodie.core.extension.nonNull
+import com.codylab.foodie.core.repository.LastKnownLocationRepository
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Singleton
 
 data class RestaurantListUiModel(
     var isLoading: Boolean = false,
-    var errorMessage: Event<String>? = null
+    var message: Event<String>? = null
 )
 
-class RestaurantListViewModel @Inject constructor(val application: Application) : AndroidViewModel(application) {
+@Singleton
+class RestaurantListViewModel @Inject constructor(
+    private val resources: Resources,
+    private val lastKnownLocationRepository: LastKnownLocationRepository
+) : ScopedViewModel() {
 
     val uiModel: NonNullMediatorLiveData<RestaurantListUiModel>
         get() = _uiModel.nonNull()
@@ -24,8 +31,17 @@ class RestaurantListViewModel @Inject constructor(val application: Application) 
 
     fun onLocationRequested(grant: Boolean) {
         if (!grant) {
-            uiModelData.errorMessage = Event(application.resources.getString(R.string.failed_to_get_user_location))
+            uiModelData.message = Event(resources.getString(R.string.failed_to_get_user_location))
             _uiModel.postValue(uiModelData)
+            return
+        }
+
+        launch {
+            val location = lastKnownLocationRepository.getLastLocationCoroutine()
+            location?.let {
+                uiModelData.message = Event(it.toString())
+                _uiModel.postValue(uiModelData)
+            }
         }
     }
 }

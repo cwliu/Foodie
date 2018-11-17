@@ -24,10 +24,17 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
-    implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
     implementation "com.android.support.constraint:constraint-layout:$constraintlayoutVersion"
+    implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
+    implementation "com.android.support:support-v4:$supportLibraryVersion"
+    implementation "com.android.support:customtabs:$supportLibraryVersion"
 
     implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:$coroutinesVersion"
 
     // Dagger core
     implementation "com.google.dagger:dagger:$daggerVersion"
@@ -48,6 +55,9 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion"
     implementation "com.jakewharton.rxbinding2:rxbinding:$rxBindingVersion"
     implementation "com.github.tbruyelle:rxpermissions:$rxPermissionVersion"
+
+    // Google Play Services Place
+    implementation "com.google.android.gms:play-services-location:$googlePlayServiceLocationVersion"
 
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test:runner:$testRunnerVersion"

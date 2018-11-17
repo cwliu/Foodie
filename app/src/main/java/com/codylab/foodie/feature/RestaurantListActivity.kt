@@ -26,7 +26,7 @@ class RestaurantListActivity : BaseActivity() {
         viewModel = getViewModel(viewModelFactory)
 
         viewModel.uiModel.nonNull().observe(this, Observer<RestaurantListUiModel> { uiModel ->
-            uiModel?.errorMessage?.getDataIfNotHandled()?.let {
+            uiModel?.message?.getDataIfNotHandled()?.let {
                 showError(it)
             }
         })
