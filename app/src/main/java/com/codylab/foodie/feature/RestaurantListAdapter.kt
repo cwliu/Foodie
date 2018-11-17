@@ -1,28 +1,27 @@
 package com.codylab.foodie.feature
 
+import android.arch.paging.PagedListAdapter
 import android.content.Intent
 import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.codylab.foodie.core.paging.RestaurantDiffCallback
 import com.codylab.foodie.core.zomato.model.search.Restaurant
 import com.codylab.foodie.databinding.ItemRestaurantBinding
 
-class RestaurantListAdapter : RecyclerView.Adapter<RestaurantListAdapter.RestaurantViewHolder>() {
-
-    val list = mutableListOf<Restaurant>()
+class RestaurantListAdapter :
+    PagedListAdapter<Restaurant, RestaurantListAdapter.RestaurantViewHolder>(RestaurantDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RestaurantViewHolder {
         val binding = ItemRestaurantBinding.inflate(LayoutInflater.from(parent.context))
         return RestaurantViewHolder(binding)
     }
 
-    override fun getItemCount(): Int {
-        return list.size
-    }
-
     override fun onBindViewHolder(holder: RestaurantViewHolder, position: Int) {
-        holder.bind(list[position])
+        getItem(position)?.let {
+            holder.bind(it)
+        }
     }
 
     class RestaurantViewHolder(

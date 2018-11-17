@@ -35,10 +35,8 @@ class RestaurantListActivity : BaseActivity() {
                 showError(it)
             }
 
-            uiModel?.zomatoRestaurantList?.let {restaurants ->
-                restaurantAdapter.list.clear()
-                restaurantAdapter.list.addAll(restaurants)
-                restaurantAdapter.notifyDataSetChanged()
+            uiModel?.zomatoRestaurantList?.let { pagedRestaurants ->
+                restaurantAdapter.submitList(pagedRestaurants)
             }
 
             uiModel.isLoading.let {

@@ -1,5 +1,6 @@
 package com.codylab.foodie.feature
 
+import android.arch.paging.PagedList
 import android.content.res.Resources
 import com.codylab.foodie.R
 import com.codylab.foodie.core.coroutine.ScopedViewModel
@@ -15,7 +16,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 data class RestaurantListUiModel(
-    var zomatoRestaurantList: List<Restaurant>? = null,
+    var zomatoRestaurantList: PagedList<Restaurant>? = null,
     var isLoading: Boolean = false,
     var message: Event<String>? = null
 )
@@ -39,7 +40,7 @@ class RestaurantListViewModel @Inject constructor(
 
         disposables += getZomatoRestaurantUseCase()
             .applySchedulers()
-            .subscribeWith(object : BaseObserver<List<Restaurant>>() {
+            .subscribeWith(object : BaseObserver<PagedList<Restaurant>>() {
                 override fun onStart() {
                     super.onStart()
 
@@ -47,7 +48,7 @@ class RestaurantListViewModel @Inject constructor(
                     uiModel.postValue(uiModelData)
                 }
 
-                override fun onNext(restaurants: List<Restaurant>) {
+                override fun onNext(restaurants: PagedList<Restaurant>) {
                     uiModelData.isLoading = false
                     uiModelData.zomatoRestaurantList = restaurants
                     uiModel.postValue(uiModelData)
