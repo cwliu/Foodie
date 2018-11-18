@@ -31,7 +31,7 @@ class RestaurantListViewModelTest {
         val viewModel = RestaurantListViewModel(
             resources, getZomatoRestaurantUseCase
         )
-        val testObserver = viewModel.uiModel.testObserver()
+        val testObserver = viewModel.uiModelLiveData.testObserver()
         val message = "Hi Testing"
         whenever(resources.getString(R.string.error_no_location_permission)).thenReturn(message)
 

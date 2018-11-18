@@ -30,7 +30,7 @@ class RestaurantListActivity : BaseActivity() {
 
         viewModel = getViewModel(viewModelFactory)
 
-        viewModel.uiModel.nonNull().observeNonNull(this) { uiModel ->
+        viewModel.uiModelLiveData.nonNull().observeNonNull(this) { uiModel ->
             uiModel?.message?.getDataIfNotHandled()?.let {
                 showError(it)
             }
