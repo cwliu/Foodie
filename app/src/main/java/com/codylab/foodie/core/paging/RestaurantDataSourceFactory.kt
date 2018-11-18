@@ -18,16 +18,7 @@ class RestaurantDataSourceFactory(
     override fun create(): DataSource<Int, Restaurant> {
         val dataSource = RestaurantDataSource(restaurantRepository, userLocationRepository, initialLocation)
 
-        val subject1 = dataSource.networkStateSubject
-        val subject2 = networkStateObservable
-        val dispoable = subject1.subscribe(
-            { subject2.onNext(it) },
-            { subject2.onError(it) },
-            { subject2.onComplete() },
-            {
-                subject2.onSubscribe(it)
-            }
-        )
+        dataSource.networkStateSubject.subscribe(networkStateObservable)
 
         return dataSource
     }
