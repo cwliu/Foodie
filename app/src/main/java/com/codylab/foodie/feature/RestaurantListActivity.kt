@@ -39,16 +39,13 @@ class RestaurantListActivity : BaseActivity() {
                 restaurantAdapter.submitList(pagedRestaurants)
             }
 
-            uiModel.isLoading.let {
-                progressBar.isVisible = it
-
-                if (!it) {
-                    swiperefresh.isRefreshing = false
-                }
+            uiModel.isLoading.let { isLoading ->
+                progressBar.isVisible = isLoading
             }
         }
 
         swiperefresh.setOnRefreshListener {
+            swiperefresh.isRefreshing = false
             viewModel.onRefresh()
         }
     }
