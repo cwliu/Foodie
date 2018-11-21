@@ -3,7 +3,7 @@ package com.codylab.foodie.feature
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.content.res.Resources
 import com.codylab.foodie.R
-import com.codylab.foodie.usecase.GetZomatoRestaurantUseCase
+import com.codylab.foodie.usecase.GetPagedRestaurantsListUseCase
 import com.codylab.foodie.util.testObserver
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
@@ -27,7 +27,7 @@ class RestaurantListViewModelTest {
     fun showNoPermissionError() {
         // Arrange
         val resources: Resources = mock()
-        val getZomatoRestaurantUseCase: GetZomatoRestaurantUseCase = mock()
+        val getZomatoRestaurantUseCase: GetPagedRestaurantsListUseCase = mock()
         val viewModel = RestaurantListViewModel(
             resources, getZomatoRestaurantUseCase
         )

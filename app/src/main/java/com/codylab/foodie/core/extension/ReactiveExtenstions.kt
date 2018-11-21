@@ -11,7 +11,6 @@ fun <T> Maybe<T>.applySchedulers(): Maybe<T> {
         .observeOn(AndroidSchedulers.mainThread())
 }
 
-
 fun <T> Single<T>.applySchedulers(): Single<T> {
     return this.subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())

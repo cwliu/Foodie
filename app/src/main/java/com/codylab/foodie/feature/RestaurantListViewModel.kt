@@ -11,15 +11,16 @@ import com.codylab.foodie.core.livedata.Event
 import com.codylab.foodie.core.paging.NetworkState
 import com.codylab.foodie.core.paging.Status
 import com.codylab.foodie.core.reactive.BaseObserver
-import com.codylab.foodie.core.zomato.model.search.Restaurant
-import com.codylab.foodie.usecase.GetZomatoRestaurantUseCase
+import com.codylab.foodie.core.room.RestaurantEntity
+import com.codylab.foodie.usecase.GetPagedRestaurantsListUseCase
+import com.codylab.foodie.usecase.RefreshPagedRestaurantsListUseCase
 import io.reactivex.rxkotlin.plusAssign
 import org.jetbrains.annotations.TestOnly
 import javax.inject.Inject
 import javax.inject.Singleton
 
 data class RestaurantListUiModel(
-    var zomatoRestaurantList: PagedList<Restaurant>? = null,
+    var zomatoRestaurantList: PagedList<RestaurantEntity>? = null,
     var isLoading: Boolean = false,
     var message: Event<String>? = null
 )
@@ -27,7 +28,8 @@ data class RestaurantListUiModel(
 @Singleton
 class RestaurantListViewModel @Inject constructor(
     private val resources: Resources,
-    private val getZomatoRestaurantUseCase: GetZomatoRestaurantUseCase
+    private val getPagedRestaurantsListUseCase: GetPagedRestaurantsListUseCase,
+    private val refreshPagedRestaurantsListUseCase: RefreshPagedRestaurantsListUseCase
 ) : ScopedViewModel() {
 
     val uiModelLiveData = NonNullMediatorLiveData<RestaurantListUiModel>()
@@ -40,13 +42,12 @@ class RestaurantListViewModel @Inject constructor(
             return
         }
 
-        disposables += getZomatoRestaurantUseCase().subscribeWith(RestaurantObserver(uiModelData, uiModelLiveData))
+        disposables += getPagedRestaurantsListUseCase().subscribeWith(RestaurantObserver(uiModelData, uiModelLiveData))
     }
 
     fun onRefresh() {
-        disposables += getZomatoRestaurantUseCase().subscribeWith(RestaurantObserver(uiModelData, uiModelLiveData))
+        disposables += refreshPagedRestaurantsListUseCase().subscribeWith(RestaurantObserver(uiModelData, uiModelLiveData))
     }
-
 
     @TestOnly
     fun showNoPermissionError() {
@@ -57,15 +58,9 @@ class RestaurantListViewModel @Inject constructor(
     class RestaurantObserver(
         private val uiModelData: RestaurantListUiModel,
         private val uiModelLiveData: MutableLiveData<RestaurantListUiModel>
-    ): BaseObserver<Pair<PagedList<Restaurant>, NetworkState>>() {
-        override fun onStart() {
-            super.onStart()
+    ): BaseObserver<Pair<PagedList<RestaurantEntity>, NetworkState>>() {
 
-            uiModelData.isLoading = true
-            uiModelLiveData.postValue(uiModelData)
-        }
-
-        override fun onNext(pair: Pair<PagedList<Restaurant>, NetworkState>) {
+        override fun onNext(pair: Pair<PagedList<RestaurantEntity>, NetworkState>) {
             val (pagedList, networkState) = pair
             when(networkState.status) {
                 Status.RUNNING -> {

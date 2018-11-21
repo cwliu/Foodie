@@ -7,11 +7,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.codylab.foodie.core.paging.RestaurantDiffCallback
-import com.codylab.foodie.core.zomato.model.search.Restaurant
+import com.codylab.foodie.core.room.RestaurantEntity
 import com.codylab.foodie.databinding.ItemRestaurantBinding
 
 class RestaurantListAdapter :
-    PagedListAdapter<Restaurant, RestaurantListAdapter.RestaurantViewHolder>(RestaurantDiffCallback) {
+    PagedListAdapter<RestaurantEntity, RestaurantListAdapter.RestaurantViewHolder>(RestaurantDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RestaurantViewHolder {
         val binding = ItemRestaurantBinding.inflate(LayoutInflater.from(parent.context))
@@ -30,7 +30,7 @@ class RestaurantListAdapter :
 
         private val restaurantPresenter = RestaurantPresenter()
 
-        fun bind(restaurant: Restaurant) {
+        fun bind(restaurant: RestaurantEntity) {
             restaurantPresenter.setup(this, restaurant)
 
             binding.restaurant = restaurant
@@ -54,9 +54,9 @@ interface RestaurantItemView {
 class RestaurantPresenter {
 
     lateinit var view: RestaurantItemView
-    lateinit var restaurant: Restaurant
+    lateinit var restaurant: RestaurantEntity
 
-    fun setup(view: RestaurantItemView, restaurant: Restaurant) {
+    fun setup(view: RestaurantItemView, restaurant: RestaurantEntity) {
         this.view = view
         this.restaurant = restaurant
     }

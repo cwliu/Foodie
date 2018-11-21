@@ -4,10 +4,13 @@ import android.arch.paging.PositionalDataSource
 import com.codylab.foodie.core.model.Location
 import com.codylab.foodie.core.repository.UserLocationRepository
 import com.codylab.foodie.core.repository.ZomatoRestaurantRepository
+import com.codylab.foodie.core.room.AppDatabase
+import com.codylab.foodie.core.room.RestaurantEntity
 import com.codylab.foodie.core.zomato.model.search.Restaurant
 import io.reactivex.subjects.BehaviorSubject
 
 class RestaurantDataSource(
+    private val appDatabase: AppDatabase,
     private val restaurantRepository: ZomatoRestaurantRepository,
     private val userLocationRepository: UserLocationRepository,
     private var location: Location? = null
@@ -28,6 +31,8 @@ class RestaurantDataSource(
                     .blockingGet()
             networkStateSubject.onNext(NetworkState.LOADED)
             val restaurants = response.restaurants.map { it.restaurant }
+            insertRestaurantsToDb(restaurants)
+
             callback.onResult(restaurants, response.results_start)
         } catch (e: NoSuchElementException) {
             networkStateSubject.onNext(NetworkState.error(e.toString()))
@@ -42,9 +47,24 @@ class RestaurantDataSource(
                     .blockingGet()
             networkStateSubject.onNext(NetworkState.LOADED)
             val restaurants = response.restaurants.map { it.restaurant }
+            insertRestaurantsToDb(restaurants)
             callback.onResult(restaurants)
         } catch (e: NoSuchElementException) {
             networkStateSubject.onNext(NetworkState.error(e.toString()))
+        }
+    }
+
+    fun insertRestaurantsToDb(restaurants: List<Restaurant>) {
+        for (entity in restaurants.map {
+            RestaurantEntity(
+                it.id,
+                it.name,
+                it.featured_image,
+                it.user_rating.aggregate_rating.toFloat(),
+                it.url
+            )
+        }) {
+            appDatabase.restaurantDao().insert(entity)
         }
     }
 }

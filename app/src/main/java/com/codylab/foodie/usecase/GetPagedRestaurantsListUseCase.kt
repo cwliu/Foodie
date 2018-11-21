@@ -2,19 +2,17 @@ package com.codylab.foodie.usecase
 
 import android.arch.paging.PagedList
 import android.arch.paging.RxPagedListBuilder
-import com.codylab.foodie.core.model.Location
 import com.codylab.foodie.core.paging.NetworkState
-import com.codylab.foodie.core.paging.RestaurantDataSourceFactory
-import com.codylab.foodie.core.repository.UserLocationRepository
-import com.codylab.foodie.core.repository.ZomatoRestaurantRepository
-import com.codylab.foodie.core.zomato.model.search.Restaurant
+import com.codylab.foodie.core.paging.RestaurantBoundaryCallBack
+import com.codylab.foodie.core.room.AppDatabase
+import com.codylab.foodie.core.room.RestaurantEntity
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 import javax.inject.Inject
 
 class GetPagedRestaurantsListUseCase @Inject constructor(
-    private val zomatoRestaurantRepository: ZomatoRestaurantRepository,
-    private val userLocationRepository: UserLocationRepository
+    private val appDatabase: AppDatabase,
+    private val restaurantBoundaryCallBack: RestaurantBoundaryCallBack
 ) {
 
     companion object {
@@ -23,18 +21,23 @@ class GetPagedRestaurantsListUseCase @Inject constructor(
         const val ENABLE_PLACEHOLDERS = false
     }
 
-    operator fun invoke(initialLocation: Location): Observable<Pair<PagedList<Restaurant>, NetworkState>> {
+    operator fun invoke(): Observable<Pair<PagedList<RestaurantEntity>, NetworkState>> {
         val config = PagedList.Config.Builder()
             .setPageSize(PAGE_SIZE)
             .setPrefetchDistance(PREFETCH_DISTANCE)
             .setEnablePlaceholders(ENABLE_PLACEHOLDERS).build()
 
-        val factory = RestaurantDataSourceFactory(zomatoRestaurantRepository, userLocationRepository, initialLocation)
-        val networkStateObservable = factory.networkStateObservable
+        restaurantBoundaryCallBack.dispose()
+
+        val dbFactory = appDatabase.restaurantDao().getAll()
+
+        val pagedListObservable = RxPagedListBuilder(dbFactory, config)
+            .setBoundaryCallback(restaurantBoundaryCallBack)
+            .buildObservable()
 
         return Observable.combineLatest(
-            RxPagedListBuilder(factory, config).buildObservable(),
-            networkStateObservable,
+            pagedListObservable,
+            restaurantBoundaryCallBack.networkStateObservable,
             BiFunction { pagedList, networkState ->
                 Pair(pagedList, networkState)
             })

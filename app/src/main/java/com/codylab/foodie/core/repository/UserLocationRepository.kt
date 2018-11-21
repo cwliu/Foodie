@@ -5,6 +5,7 @@ import com.codylab.foodie.core.model.Location
 import com.google.android.gms.location.*
 import io.reactivex.Maybe
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
@@ -79,6 +80,6 @@ class UserLocationRepository @Inject constructor(
             fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null)
         }.doOnDispose {
             fusedLocationProviderClient.removeLocationUpdates(locationCallback)
-        }
+        }.subscribeOn(AndroidSchedulers.mainThread())
     }
 }

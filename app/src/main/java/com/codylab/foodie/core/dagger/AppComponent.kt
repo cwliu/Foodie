@@ -17,7 +17,8 @@ import javax.inject.Singleton
         ViewModelModule::class,
         CoreModule::class,
         LocationModule::class,
-        ZomatoModule::class
+        ZomatoModule::class,
+        RoomModule::class
     ]
 )
 interface AppComponent : AndroidInjector<DaggerApplication> {

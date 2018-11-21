@@ -1,14 +1,14 @@
 package com.codylab.foodie.core.paging
 
 import android.support.v7.util.DiffUtil
-import com.codylab.foodie.core.zomato.model.search.Restaurant
+import com.codylab.foodie.core.room.RestaurantEntity
 
-object RestaurantDiffCallback: DiffUtil.ItemCallback<Restaurant>() {
-    override fun areItemsTheSame(oldItem: Restaurant, newItem: Restaurant): Boolean {
+object RestaurantDiffCallback: DiffUtil.ItemCallback<RestaurantEntity>() {
+    override fun areItemsTheSame(oldItem: RestaurantEntity, newItem: RestaurantEntity): Boolean {
         return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: Restaurant, newItem: Restaurant): Boolean {
+    override fun areContentsTheSame(oldItem: RestaurantEntity, newItem: RestaurantEntity): Boolean {
         return oldItem.id == newItem.id
     }
 }
