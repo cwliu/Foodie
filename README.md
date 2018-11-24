@@ -2,12 +2,11 @@
 
 List the top 100 restaurants nearby. This demo app is to demonstrate how to strcuture Android app under clean architecture principle.
 
+![screenshot](https://www.evernote.com/l/ABA1SbR2gLVFQqdRwfWFwcGTxivhEepbt9gB/image.png)
+
 ## App architecture
 
 ![architecture](https://www.evernote.com/l/ABDotxKR9kNNCqcQEfML-BBSuI_3s1RvPjQB/image.png)
-
-## Screenshot
-
 
 ## Tech stack
 - Programming language: Kotlin
@@ -23,4 +22,4 @@ List the top 100 restaurants nearby. This demo app is to demonstrate how to strc
 ```
 zomato_api_key="<ZOMOTO_API_KEY>"
 ```
-PS: or you can use my dev KEY for temopratry testing `4c1159fee21201ebbced7f642f3530b5`
+PS: you can also use my dev KEY for temopratry testing `4c1159fee21201ebbced7f642f3530b5`
