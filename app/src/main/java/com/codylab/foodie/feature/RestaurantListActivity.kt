@@ -31,11 +31,11 @@ class RestaurantListActivity : BaseActivity() {
         viewModel = getViewModel(viewModelFactory)
 
         viewModel.uiModelLiveData.nonNull().observeNonNull(this) { uiModel ->
-            uiModel?.message?.getDataIfNotHandled()?.let {
-                showError(it)
+            uiModel.message?.getDataIfNotHandled()?.let {
+                showToast(it)
             }
 
-            uiModel?.zomatoRestaurantList?.let { pagedRestaurants ->
+            uiModel.zomatoRestaurantList?.let { pagedRestaurants ->
                 restaurantAdapter.submitList(pagedRestaurants)
             }
 
