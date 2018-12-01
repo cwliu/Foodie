@@ -3,7 +3,7 @@ package com.codylab.foodie.core.paging
 import android.arch.paging.PositionalDataSource
 import com.codylab.foodie.core.model.Location
 import com.codylab.foodie.core.repository.UserLocationRepository
-import com.codylab.foodie.core.repository.ZomatoRestaurantRepository
+import com.codylab.foodie.core.repository.ZomatoApiRepository
 import com.codylab.foodie.core.room.AppDatabase
 import com.codylab.foodie.core.room.RestaurantEntity
 import com.codylab.foodie.core.zomato.model.search.Restaurant
@@ -11,7 +11,7 @@ import io.reactivex.subjects.BehaviorSubject
 
 class RestaurantDataSource(
     private val appDatabase: AppDatabase,
-    private val restaurantRepository: ZomatoRestaurantRepository,
+    private val apiRepository: ZomatoApiRepository,
     private val userLocationRepository: UserLocationRepository,
     private var location: Location? = null
 ) : PositionalDataSource<Restaurant>() {
@@ -27,7 +27,7 @@ class RestaurantDataSource(
             }
 
             val response =
-                restaurantRepository.getRestaurantsResponse(location!!, params.requestedStartPosition, params.pageSize)
+                apiRepository.getRestaurantsResponse(location!!, params.requestedStartPosition, params.pageSize)
                     .blockingGet()
             networkStateSubject.onNext(NetworkState.LOADED)
             val restaurants = response.restaurants.map { it.restaurant }
@@ -43,7 +43,7 @@ class RestaurantDataSource(
         networkStateSubject.onNext(NetworkState.LOADING)
         try {
             val response =
-                restaurantRepository.getRestaurantsResponse(location!!, params.startPosition, params.loadSize)
+                apiRepository.getRestaurantsResponse(location!!, params.startPosition, params.loadSize)
                     .blockingGet()
             networkStateSubject.onNext(NetworkState.LOADED)
             val restaurants = response.restaurants.map { it.restaurant }

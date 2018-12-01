@@ -4,7 +4,9 @@ import com.codylab.foodie.core.model.Location
 import com.codylab.foodie.core.repository.UserLocationRepository
 import io.reactivex.Observable
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class GetUserLocationUseCase @Inject constructor(
     private val userLocationRepository: UserLocationRepository
 ) {

@@ -9,7 +9,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ZomatoRestaurantRepository @Inject constructor(
+class ZomatoApiRepository @Inject constructor(
     private val zomatoApi: ZomatoApi
 ) {
     fun getRestaurantsResponse(location: Location, start: Int, count: Int): Single<SearchResponse> {

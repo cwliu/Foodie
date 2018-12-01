@@ -9,7 +9,9 @@ import com.codylab.foodie.core.room.RestaurantEntity
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class GetPagedRestaurantsListUseCase @Inject constructor(
     private val appDatabase: AppDatabase,
     private val restaurantBoundaryCallBack: RestaurantBoundaryCallBack
